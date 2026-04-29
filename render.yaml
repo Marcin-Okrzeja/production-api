@@ -1,0 +1,106 @@
+# Render Configuration for Production AI API
+# Deploy your containerized AI system to the cloud
+
+services:
+  # Type: Web Service (REST API)
+  type: web
+  name: production-ai-api
+  env: docker
+  region: oregon  # or choose your preferred region
+  
+  # Docker Configuration
+  dockerfilePath: ./Dockerfile
+  dockerContext: .
+  
+  # Health Check
+  healthCheckPath: /health
+  
+  # Port Configuration
+  httpPort: 8000
+  
+  # Environment Variables
+  envVars:
+    # Production Configuration
+    - key: API_HOST
+      value: 0.0.0.0
+    - key: API_PORT
+      value: 8000
+    - key: API_DEBUG
+      value: false
+    - key: LOG_LEVEL
+      value: INFO
+    - key: METRICS_ENABLED
+      value: true
+    - key: CACHE_TTL
+      value: 3600
+    - key: MAX_TOKENS_PER_REQUEST
+      value: 4000
+    - key: ENABLE_MODEL_ROUTING
+      value: true
+    
+    # AI Service Keys (Set these in Render Dashboard)
+    - key: GROQ_API_KEY
+      sync: false
+      generateValue: false
+    - key: LANGSMITH_API_KEY
+      sync: false
+      generateValue: false
+    - key: LANGSMITH_TRACING
+      value: false
+      sync: false
+    - key: LANGSMITH_PROJECT
+      value: production-api
+      sync: false
+      
+    # Security
+    - key: SECRET_KEY
+      generateValue: true
+      sync: false
+  
+  # Scaling Configuration
+  plan: starter  # Free tier to start
+  numInstances: 1
+  
+  # Auto-Scaling (for paid plans)
+  # scaling:
+  #   minInstances: 1
+  #   maxInstances: 3
+  #   targetCPUPercent: 70
+  #   targetMemoryPercent: 80
+  
+  # Build Configuration
+  buildCommand: ""
+  startCommand: ""
+  
+  # Performance Settings
+  healthCheckGracePeriod: 60
+  healthCheckInterval: 30
+  
+  # CORS Configuration (handled by app)
+  cors:
+    - origin: https://yourdomain.com
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+      maxAge: 86400
+
+# Optional: Add PostgreSQL for persistent storage
+databases:
+  - name: production-api-db
+    databaseName: production_api
+    user: production_api_user
+    plan: free  # Upgrade as needed
+    region: oregon
+    
+# Optional: Add Redis for caching (if you want external cache)
+# services:
+#   - type: redis
+#     name: production-api-redis
+#     plan: free
+#     region: oregon
+#     ipAllowList: []  # Only accessible from your web service

@@ -5,12 +5,11 @@ services:
   # Type: Web Service (REST API)
   type: web
   name: production-ai-api
-  env: docker
+  env: python
   region: oregon  # or choose your preferred region
   
-  # Docker Configuration
-  dockerfilePath: ./Dockerfile
-  dockerContext: .
+  # Python Configuration
+  pythonVersion: 3.11
   
   # Health Check
   healthCheckPath: /health
@@ -68,9 +67,9 @@ services:
   #   targetCPUPercent: 70
   #   targetMemoryPercent: 80
   
-  # Build Configuration - Docker handles this
-  buildCommand: ""  # Not needed for Docker
-  startCommand: ""   # Dockerfile CMD handles this
+  # Build Configuration
+  buildCommand: "pip install -r requirements.txt"
+  startCommand: "uvicorn app.main:app --host 0.0.0.0 --port 8000"
   
   # Performance Settings
   healthCheckGracePeriod: 60

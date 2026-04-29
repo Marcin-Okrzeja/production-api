@@ -27,7 +27,7 @@ from monitoring import get_metrics, create_tracker
 settings = get_settings()
 sanitizer = get_sanitizer()
 cache = get_cache()
-agent = get_agent()
+# agent = get_agent()  # Comment out to avoid startup crashes
 metrics = get_metrics()
 
 

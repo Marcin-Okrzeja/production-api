@@ -1,105 +1,36 @@
-# Render Configuration for Production AI API
-# Deploy your containerized AI system to the cloud
-
+# render.yaml — Infrastructure as Code for Render
 services:
-  # Type: Web Service (REST API)
-  type: web
-  name: production-ai-api
-  env: python
-  region: oregon  # or choose your preferred region
-  
-  # Python Configuration
-  pythonVersion: 3.11
-  
-  # Health Check
-  healthCheckPath: /health
-  
-  # Port Configuration
-  httpPort: 8000
-  
-  # Environment Variables
-  envVars:
-    # Production Configuration
-    - key: API_HOST
-      value: 0.0.0.0
-    - key: API_PORT
-      value: 8000
-    - key: API_DEBUG
-      value: false
-    - key: LOG_LEVEL
-      value: INFO
-    - key: METRICS_ENABLED
-      value: true
-    - key: CACHE_TTL
-      value: 3600
-    - key: MAX_TOKENS_PER_REQUEST
-      value: 4000
-    - key: ENABLE_MODEL_ROUTING
-      value: true
-    
-    # AI Service Keys (Set these in Render Dashboard)
-    - key: GROQ_API_KEY
-      sync: false
-      generateValue: false
-    - key: LANGSMITH_API_KEY
-      sync: false
-      generateValue: false
-    - key: LANGSMITH_TRACING
-      value: false
-      sync: false
-    - key: LANGSMITH_PROJECT
-      value: production-api
-      sync: false
-      
-    # Security
-    - key: SECRET_KEY
-      generateValue: true
-      sync: false
-  
-  # Scaling Configuration
-  plan: starter  # Free tier to start
-  numInstances: 1
-  
-  # Auto-Scaling (for paid plans)
-  # scaling:
-  #   minInstances: 1
-  #   maxInstances: 3
-  #   targetCPUPercent: 70
-  #   targetMemoryPercent: 80
-  
-  # Build Configuration
-  buildCommand: pip install -r requirements.txt
-  startCommand: uvicorn app.main:app --host 0.0.0.0 --port 8000
-  
-  # Performance Settings
-  healthCheckGracePeriod: 60
-  healthCheckInterval: 30
-  
-  # CORS Configuration (handled by app)
-  cors:
-    - origin: https://yourdomain.com
-      allowedMethods:
-        - GET
-        - POST
-        - PUT
-        - DELETE
-      allowedHeaders:
-        - Content-Type
-        - Authorization
-      maxAge: 86400
-
-# Optional: Add PostgreSQL for persistent storage
-databases:
-  - name: production-api-db
-    databaseName: production_api
-    user: production_api_user
-    plan: free  # Upgrade as needed
+  - type: web
+    name: production-langgraph-api
+    runtime: python
     region: oregon
-    
-# Optional: Add Redis for caching (if you want external cache)
-# services:
-#   - type: redis
-#     name: production-api-redis
-#     plan: free
-#     region: oregon
-#     ipAllowList: []  # Only accessible from your web service
+    plan: free
+    buildCommand: pip install uv && uv sync --frozen --no-dev
+    startCommand: uv run uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.3"
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: RATE_LIMIT
+        value: "20/minute"
+      - key: CACHE_TTL_SECONDS
+        value: "300"
+      - key: MAX_RETRIES
+        value: "3"
+      - key: PRIMARY_MODEL
+        value: gpt-4o-mini
+      - key: FALLBACK_MODEL
+        value: gpt-4o-mini
+      - key: OPENAI_API_KEY
+        sync: false  # Must be set manually — NEVER commit secrets
+      - key: LANGCHAIN_API_KEY
+        sync: false  # Must be set manually
+      - key: LANGCHAIN_TRACING_V2
+        value: "true"
+      - key: LANGCHAIN_PROJECT
+        value: production-api
+    healthCheckPath: /health
+    autoDeploy: true

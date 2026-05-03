@@ -1,0 +1,71 @@
+# Docker ignore file
+# Exclude unnecessary files from Docker build context
+
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files (use .env.example in container)
+.env
+.env.local
+.env.production
+
+# Test files
+test_*.py
+tests/
+
+# Documentation
+README.md
+*.md
+
+# Lock files (uv.lock is needed for reproducible builds)
+# Keep uv.lock for dependency resolution
+
+# Development files
+minimal_api.py
+simple_api.py
+working_api.py
+test_api.py
+test_basic.py
+test_fastapi.py
+test_groq.py

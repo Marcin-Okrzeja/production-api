@@ -8,29 +8,17 @@ services:
     buildCommand: pip install uv && uv sync --frozen --no-dev
     startCommand: uv run uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.12.3"
-      - key: APP_ENV
-        value: production
-      - key: LOG_LEVEL
-        value: INFO
-      - key: RATE_LIMIT
-        value: "20/minute"
-      - key: CACHE_TTL_SECONDS
-        value: "300"
-      - key: MAX_RETRIES
-        value: "3"
-      - key: PRIMARY_MODEL
-        value: llama-3.1-8b-instant
-      - key: FALLBACK_MODEL
-        value: llama-3.1-8b-instant
-      - key: GROQ_API_KEY
-        sync: false  # Must be set manually — NEVER commit secrets
-      - key: LANGCHAIN_API_KEY
-        sync: false  # Must be set manually
-      - key: LANGCHAIN_TRACING_V2
-        value: "true"
-      - key: LANGCHAIN_PROJECT
-        value: production-api
+      PYTHON_VERSION: "3.12.3"
+      APP_ENV: production
+      LOG_LEVEL: INFO
+      RATE_LIMIT: "20/minute"
+      CACHE_TTL_SECONDS: "300"
+      MAX_RETRIES: "3"
+      PRIMARY_MODEL: llama-3.1-8b-instant
+      FALLBACK_MODEL: llama-3.1-8b-instant
+      GROQ_API_KEY: ""
+      LANGCHAIN_API_KEY: ""
+      LANGCHAIN_TRACING_V2: "true"
+      LANGCHAIN_PROJECT: production-api
     healthCheckPath: /health
     autoDeploy: true

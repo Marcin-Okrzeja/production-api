@@ -12,15 +12,15 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from config import get_settings
-from models import (
+from app.config import get_settings
+from app.models import (
     ChatRequest, ChatResponse, HealthResponse, 
     MetricsResponse, ErrorResponse, APIInfo, RequestStatus
 )
-from security import get_sanitizer
-from cache import get_cache
-from agent import get_agent
-from monitoring import get_metrics, create_tracker
+from app.security import get_sanitizer
+from app.cache import get_cache
+from app.agent import get_agent
+from app.monitoring import get_metrics, create_tracker
 
 
 # Get settings and components

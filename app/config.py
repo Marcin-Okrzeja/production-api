@@ -24,8 +24,8 @@ class Settings(BaseSettings):
     api_port: int = Field(default=8000)
     api_debug: bool = Field(default=False)
     
-    # Groq API Configuration
-    groq_api_key: str = Field(default="your_groq_api_key_here")
+    # OpenAI API Configuration
+    openai_api_key: str = Field(default="your_openai_api_key_here")
     
     # LangSmith Configuration
     langsmith_api_key: Optional[str] = Field(default=None)

@@ -5,7 +5,7 @@ Input sanitization, validation, and threat detection
 
 import re
 from typing import Tuple, Optional, List
-from models import SecurityCheck
+from app.models import SecurityCheck
 
 
 class InputSanitizer:

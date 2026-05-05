@@ -6,7 +6,7 @@ Metrics collection and performance tracking
 import time
 from typing import Dict, Any
 from datetime import datetime
-from models import MetricsResponse, ModelMetrics
+from app.models import MetricsResponse, ModelMetrics
 
 
 class MetricsCollector:

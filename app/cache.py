@@ -7,8 +7,8 @@ import time
 import hashlib
 from typing import Optional, Dict, Any
 from datetime import datetime, timedelta
-from models import CacheEntry
-from config import get_settings
+from app.models import CacheEntry
+from app.config import get_settings
 
 
 class SimpleCache:

@@ -6,8 +6,8 @@ Model routing and AI processing logic
 from typing import Tuple, Optional
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
-from config import get_settings
-from models import ModelType
+from app.config import get_settings
+from app.models import ModelType
 
 
 class ModelRouter:
